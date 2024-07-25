@@ -1,4 +1,3 @@
-import com.sun.source.tree.IfTree;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,20 +6,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class login extends JFrame{
+public class login extends JFrame {
     private JTextField campoUsu;
     private JPasswordField campoContra;
     private JButton ingresarButton;
     private JButton registrarmeButton;
     private JPanel logeo;
 
-    public login(){
-    setTitle("Iniciar Sesión");
-    setSize(500,600);
-    setDefaultCloseOperation(EXIT_ON_CLOSE);
-    setContentPane(logeo);
-    setLocationRelativeTo(null);
-
+    public login() {
+        setTitle("Iniciar Sesión");
+        setSize(500, 600);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setContentPane(logeo);
+        setLocationRelativeTo(null);
 
         ingresarButton.addActionListener(new ActionListener() {
             @Override
@@ -28,54 +26,61 @@ public class login extends JFrame{
                 String usuario = campoUsu.getText();
                 String contrasena = new String(campoContra.getPassword());
 
-                if (usuario.trim().isEmpty() || contrasena.trim().isEmpty()){
+                if (usuario.trim().isEmpty() || contrasena.trim().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Por favor ingrese los datos", "Advertencia", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
 
-                if (autenticarUsuario(usuario, contrasena)){
+                if (autenticarUsuario(usuario, contrasena)) {
                     new menu().setVisible(true);
-                dispose();
-                }
-                else{
+                    dispose();
+                } else {
                     JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos.");
                 }
             }
         });
+
         registrarmeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-             new registrarForm().setVisible(true);
+                new registrarForm().setVisible(true);
             }
         });
     }
 
-private boolean autenticarUsuario(String usuario, String contrasena){
+    private boolean autenticarUsuario(String usuario, String contrasena) {
         boolean autenticado = false;
-    Connection connection = ConexionBase.getConnection();
-    String query = "SELECT * from usuario where username =? and password =?";
+        Connection connection = ConexionBase.getConnection();
 
-    try{
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, usuario);
-        preparedStatement.setString(2,contrasena);
-
-        ResultSet resultSet = preparedStatement.executeQuery();
-
-    if (resultSet.next()){
-    autenticado = true;
+        if (connection == null) {
+            JOptionPane.showMessageDialog(null, "No se pudo establecer la conexión con la base de datos.");
+            return false;
         }
+
+        String query = "SELECT * FROM acceso WHERE usuario = ? AND password = ?";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, usuario);
+            preparedStatement.setString(2, contrasena);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                autenticado = true;
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return autenticado;
     }
 
-    catch (SQLException e) {
-        e.printStackTrace();
-        }
-return autenticado;
-    }
-
-    public static void main(String[] args){
+    public static void main(String[] args) {
         new login().setVisible(true);
     }
 }
-
-
