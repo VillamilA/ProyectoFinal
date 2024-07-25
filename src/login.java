@@ -57,7 +57,7 @@ public class login extends JFrame {
             return false;
         }
 
-        String query = "SELECT * FROM acceso WHERE usuario = ? AND password = ?";
+        String query = "SELECT * FROM USUARIO WHERE username = ? AND password = ?";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
