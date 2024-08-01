@@ -7,10 +7,11 @@ import java.sql.SQLException;
 
 public class registrarForm extends JFrame {
     private JPanel registro;
-    private JTextField campoNuevoUsuario;
+    private JTextField campoCedula;
     private JButton registrarButton;
     private JButton regresarLoginButton;
     private JPasswordField campoNuevoContrasena;
+    private JTextField campoUsuario;
 
     public registrarForm(){
     setTitle("Iniciar Sesión");
@@ -21,10 +22,11 @@ public class registrarForm extends JFrame {
     registrarButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String nuevoUsuario = campoNuevoUsuario.getText();
+            String Cedula = campoCedula.getText();
+            String Usuario = campoUsuario.getText();
             String nuevaContrasena = new String(campoNuevoContrasena.getPassword());
 
-            registrarUsuario(nuevoUsuario, nuevaContrasena);
+            registrarUsuario(Cedula,Usuario, nuevaContrasena);
         }
     });
 
@@ -37,14 +39,15 @@ public class registrarForm extends JFrame {
     });
 }
 
-    private void registrarUsuario(String usuario, String contrasena) {
+    private void registrarUsuario(String cedula, String usuario, String contrasena) {
         Connection connection = ConexionBase.getConnection();
-        String query = "INSERT INTO USUARIO (username, password) VALUES (?, ?)";
+        String query = "INSERT INTO USUARIO (cedula, usuario, contrasena) VALUES (?, ?, ?)";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, usuario);
-            preparedStatement.setString(2, contrasena);
+            preparedStatement.setString(1, cedula);
+            preparedStatement.setString(2, usuario);
+            preparedStatement.setString(3, contrasena);
 
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {

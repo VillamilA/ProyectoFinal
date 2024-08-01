@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -15,9 +16,10 @@ public class login extends JFrame {
 
     public login() {
         setTitle("Iniciar Sesión");
-        setSize(500, 600);
+        setSize(600, 550);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setContentPane(logeo);
+
         setLocationRelativeTo(null);
 
         ingresarButton.addActionListener(new ActionListener() {
@@ -44,6 +46,7 @@ public class login extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new registrarForm().setVisible(true);
+                dispose();
             }
         });
     }
@@ -57,7 +60,7 @@ public class login extends JFrame {
             return false;
         }
 
-        String query = "SELECT * FROM USUARIO WHERE username = ? AND password = ?";
+        String query = "SELECT * FROM USUARIO WHERE usuario = ? AND contrasena = ?";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -74,11 +77,13 @@ public class login extends JFrame {
             preparedStatement.close();
             connection.close();
         } catch (SQLException e) {
+            System.out.println("Error al autenticar el usuario.");
             e.printStackTrace();
         }
 
         return autenticado;
     }
+
 
     public static void main(String[] args) {
         new login().setVisible(true);
