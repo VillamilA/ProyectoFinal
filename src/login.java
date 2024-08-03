@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -13,6 +12,7 @@ public class login extends JFrame {
     private JButton ingresarButton;
     private JButton registrarmeButton;
     private JPanel logeo;
+    private JButton pulsaAquíButton;
 
     public login() {
         setTitle("Iniciar Sesión");
