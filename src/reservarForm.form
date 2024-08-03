@@ -99,14 +99,6 @@
           <text value="Reservar"/>
         </properties>
       </component>
-      <component id="98ec1" class="javax.swing.JButton" binding="irMenúButton" default-binding="true">
-        <constraints>
-          <grid row="8" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Ir Menú"/>
-        </properties>
-      </component>
       <component id="c8cf5" class="javax.swing.JLabel">
         <constraints>
           <grid row="4" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
@@ -154,6 +146,14 @@
         <properties>
           <font size="9"/>
           <text value="Recuerda la fecha Ingresar en formato yyyy-mm-dd"/>
+        </properties>
+      </component>
+      <component id="a551c" class="javax.swing.JButton" binding="menubutton">
+        <constraints>
+          <grid row="8" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Ir Menú"/>
         </properties>
       </component>
     </children>

@@ -12,6 +12,7 @@ public class eliminarForm extends JFrame {
     private JButton buscarButton;
     private JButton eliminarButton;
     private JPanel eliminarPanel;
+    private JButton menubutton;
 
     public eliminarForm() {
         setTitle("Eliminar Reserva");
@@ -65,6 +66,13 @@ public class eliminarForm extends JFrame {
                         }
                     }
                 }
+            }
+        });
+        menubutton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new menu().setVisible(true);
+                dispose();
             }
         });
     }

@@ -15,7 +15,7 @@ public class actualizarForm extends JFrame {
 
     public actualizarForm() {
         setTitle("Actualizar Reserva");
-        setSize(400, 300);
+        setSize(500, 600);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setContentPane(actualizarPanel);
         setLocationRelativeTo(null);

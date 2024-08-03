@@ -13,10 +13,11 @@ public class reservarForm extends JFrame {
     private JTextField campoCancha;
     private JButton reservarButton;
     private JPanel reservarPanel;
+    private JButton menubutton;
 
     public reservarForm() {
         setTitle("Reservar Cancha");
-        setSize(400, 300);
+        setSize(500, 600);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setContentPane(reservarPanel);
         setLocationRelativeTo(null);
@@ -87,6 +88,13 @@ public class reservarForm extends JFrame {
                         ex.printStackTrace();
                     }
                 }
+            }
+        });
+        menubutton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new menu().setVisible(true);
+                dispose();
             }
         });
     }
