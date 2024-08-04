@@ -12,6 +12,7 @@ public class actualizarForm extends JFrame {
     private JTextField campoCancha;
     private JButton actualizarButton;
     private JPanel actualizarPanel;
+    private JButton menúButton;
 
     public actualizarForm() {
         setTitle("Actualizar Reserva");
@@ -54,6 +55,13 @@ public class actualizarForm extends JFrame {
                         ex.printStackTrace();
                     }
                 }
+            }
+        });
+        menúButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new menu().setVisible(true);
+                dispose();
             }
         });
     }
