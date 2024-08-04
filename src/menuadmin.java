@@ -15,5 +15,12 @@ public class menuadmin extends JFrame {
                 System.exit(0);
             }
         });
+        canchaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new canchaAdmin().setVisible(true);
+                dispose();
+            }
+        });
     }
 }
