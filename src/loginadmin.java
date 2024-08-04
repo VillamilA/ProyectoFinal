@@ -44,7 +44,7 @@ public class loginadmin extends JFrame {
         regresarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new menuadmin().setVisible(true);
+                new login().setVisible(true);
                 dispose();
             }
         });
