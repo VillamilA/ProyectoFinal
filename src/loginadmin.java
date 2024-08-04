@@ -6,35 +6,34 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class login extends JFrame {
-    private JTextField campoUsu;
-    private JPasswordField campoContra;
-    private JButton ingresarButton;
-    private JButton registrarmeButton;
-    private JPanel logeo;
-    private JButton pulsaAquíButton;
+public class loginadmin extends JFrame {
+    private JPasswordField passAdmin;
+    private JTextField cedulaAdmin;
+    private JButton iniciarSesiónButton;
+    private JButton regresarButton;
+    private JPanel adminLogin;
 
-    public login() {
+
+    public loginadmin() {
         setTitle("Iniciar Sesión");
         setSize(600, 550);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setContentPane(logeo);
-
+        setContentPane(adminLogin);
         setLocationRelativeTo(null);
 
-        ingresarButton.addActionListener(new ActionListener() {
+        iniciarSesiónButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String usuario = campoUsu.getText();
-                String contrasena = new String(campoContra.getPassword());
+                String usuario = cedulaAdmin.getText();
+                String contrasena = new String(passAdmin.getPassword());
 
                 if (usuario.trim().isEmpty() || contrasena.trim().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Por favor ingrese los datos", "Advertencia", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
 
-                if (autenticarUsuario(usuario, contrasena)) {
-                    new menu().setVisible(true);
+                if (autenticarAdmin(usuario, contrasena)) {
+                    new menuadmin().setVisible(true);
                     dispose();
                 } else {
                     JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos.");
@@ -42,23 +41,15 @@ public class login extends JFrame {
             }
         });
 
-        registrarmeButton.addActionListener(new ActionListener() {
+        regresarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new registrarForm().setVisible(true);
-                dispose();
-            }
-        });
-        pulsaAquíButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new loginadmin().setVisible(true);
+                new menuadmin().setVisible(true);
                 dispose();
             }
         });
     }
-
-    private boolean autenticarUsuario(String usuario, String contrasena) {
+    private boolean autenticarAdmin(String usuario, String contrasena) {
         boolean autenticado = false;
         Connection connection = ConexionBase.getConnection();
 
@@ -67,7 +58,7 @@ public class login extends JFrame {
             return false;
         }
 
-        String query = "SELECT * FROM USUARIO WHERE usuario = ? AND contrasena = ?";
+        String query = "SELECT * FROM ADMIN WHERE usuario = ? AND contrasena = ?";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -89,10 +80,5 @@ public class login extends JFrame {
         }
 
         return autenticado;
-    }
-
-
-    public static void main(String[] args) {
-        new login().setVisible(true);
     }
 }
