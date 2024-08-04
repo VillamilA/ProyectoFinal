@@ -22,5 +22,12 @@ public class menuadmin extends JFrame {
                 dispose();
             }
         });
+        clientesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new clienteAdmin().setVisible(true);
+                dispose();
+            }
+        });
     }
 }
