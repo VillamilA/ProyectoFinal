@@ -14,8 +14,12 @@ public class clienteAdmin extends JFrame {
     private JPanel clientemenu;
     private JButton crearClienteButton;
     private JTabbedPane tabbedPane2;
+    private JTextField textField1;
+    private JComboBox comboBox1;
+    private JButton buscarButton;
+    private JButton eliminarButton;
 
-public clienteAdmin(){
+    public clienteAdmin(){
     setTitle("Clientes");
     setSize(550,425);
     setContentPane(clientemenu);
