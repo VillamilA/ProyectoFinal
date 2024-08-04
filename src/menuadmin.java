@@ -7,8 +7,16 @@ public class menuadmin extends JFrame {
     private JButton trabajadoresButton;
     private JButton canchaButton;
     private JButton salirButton;
+    private JPanel menuadmin;
 
-    public menuadmin() {
+    public menuadmin()
+    {
+        setTitle("Administrador");
+        setSize(500,450);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setContentPane(menuadmin);
+        setLocationRelativeTo(null);
+
         salirButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
