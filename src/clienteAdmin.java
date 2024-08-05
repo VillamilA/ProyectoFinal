@@ -25,6 +25,10 @@ public class clienteAdmin extends JFrame {
     private JButton actualizarClienteButton;
     private JTextField campUsu;
     private JTextField campContr;
+    private JTabbedPane tabbedPane1;
+    private JTextField verCedula;
+    private JButton buscarButton1;
+    private JTextArea infotexto;
 
     public clienteAdmin(){
     setTitle("Clientes");
@@ -122,6 +126,40 @@ public class clienteAdmin extends JFrame {
                         ex.printStackTrace();
                     }
                 }
+            }
+        });
+
+        buscarButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String cedula = verCedula.getText();
+                if(cedula.trim().isEmpty()){
+                    JOptionPane.showMessageDialog(null ,"La cédula es obligatoria", "Adertencia", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                Connection connection = ConexionBase.getConnection();
+                if (connection != null) {
+                    try {
+                        String query = "select * from USUARIO where cedula = ?";
+                        PreparedStatement preparedStatement = connection.prepareStatement(query);
+                        preparedStatement.setString(1, cedula);
+                        ResultSet resultSet = preparedStatement.executeQuery();
+                        infotexto.setText("");
+                        while (resultSet.next()) {
+                            infotexto.append("La información de tu consulta realizada es: "+"\n" );
+                            infotexto.append("Cédula: " + resultSet.getString("cedula") + "\n");
+                            infotexto.append("Usuario: " + resultSet.getInt("usuario") + "\n");
+                            infotexto.append("Contraseña: " + resultSet.getInt("contrasena") + "\n");
+                            infotexto.append("-----------------------\n");
+                        }
+                        resultSet.close();
+                        preparedStatement.close();
+                        connection.close();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+
             }
         });
 
