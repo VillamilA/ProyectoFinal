@@ -29,6 +29,7 @@ public class clienteAdmin extends JFrame {
     private JTextField verCedula;
     private JButton buscarButton1;
     private JTextArea infotexto;
+    private JButton regresarMenúButton;
 
     public clienteAdmin(){
     setTitle("Clientes");
@@ -163,6 +164,13 @@ public class clienteAdmin extends JFrame {
             }
         });
 
+        regresarMenúButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new menuadmin().setVisible(true);
+                dispose();
+            }
+        });
     }
 
     private void crearCliente(String cedula, String usuario, String contrasena) {
