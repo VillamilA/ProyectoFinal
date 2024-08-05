@@ -8,6 +8,7 @@ public class menu extends JFrame {
     private JButton eliminarReservaButton;
     private JButton actualizarReservaButton;
     private JPanel menuu;
+    private JButton regresarButton;
 
     public menu(){
     setTitle("Menú");
@@ -43,6 +44,13 @@ public class menu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new actualizarForm().setVisible(true);
+                dispose();
+            }
+        });
+        regresarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new login().setVisible(true);
                 dispose();
             }
         });
