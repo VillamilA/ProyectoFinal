@@ -8,7 +8,6 @@ import java.sql.SQLException;
 
 public class clienteAdmin extends JFrame {
 
-    private JTabbedPane tabbedPane1;
     private JTextField campoCedula;
     private JTextField campoContra;
     private JTextField campoUsuario;
@@ -19,6 +18,13 @@ public class clienteAdmin extends JFrame {
     private JComboBox boxcliente;
     private JButton buscarButton;
     private JButton eliminarButton;
+    private JTabbedPane tabbedPane3;
+    private JPanel elimina;
+    private JPanel actualiza;
+    private JTextField campCed;
+    private JButton actualizarClienteButton;
+    private JTextField campUsu;
+    private JTextField campContr;
 
     public clienteAdmin(){
     setTitle("Clientes");
@@ -82,6 +88,43 @@ public class clienteAdmin extends JFrame {
                 }
             }
         });
+        actualizarClienteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String cedula = campCed.getText();
+                String usuario = campUsu.getText();
+                String contrasena = campContr.getText();
+                if (cedula.trim().isEmpty() || usuario.trim().isEmpty() || contrasena.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Todos los campos son obligatorios", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+                Connection connection = ConexionBase.getConnection();
+                if (connection != null) {
+                    try {
+                        // Corregir la consulta para actualizar usuario y contraseña
+                        String query = "UPDATE USUARIO SET usuario = ?, contrasena = ? WHERE cedula = ?";
+                        PreparedStatement preparedStatement = connection.prepareStatement(query);
+                        preparedStatement.setString(1, usuario);
+                        preparedStatement.setString(2, contrasena);
+                        preparedStatement.setString(3, cedula);
+                        int rowsAffected = preparedStatement.executeUpdate();
+
+                        if (rowsAffected > 0) {
+                            JOptionPane.showMessageDialog(null, "Usuario actualizado con éxito");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "No se encontró ningún usuario con la cédula proporcionada");
+                        }
+
+                        preparedStatement.close();
+                        connection.close();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+
     }
 
     private void crearCliente(String cedula, String usuario, String contrasena) {
