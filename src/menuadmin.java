@@ -37,12 +37,5 @@ public class menuadmin extends JFrame {
                 dispose();
             }
         });
-        trabajadoresButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new trabajadorAdmin().setVisible(true);
-                dispose();
-            }
-        });
     }
 }
