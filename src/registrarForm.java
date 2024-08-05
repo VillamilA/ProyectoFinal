@@ -51,7 +51,7 @@ public class registrarForm extends JFrame {
 
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
-                JOptionPane.showMessageDialog(null, "Usuario registrado con éxito");
+                JOptionPane.showMessageDialog(null, "Bienvenido señor "+usuario);
                 new login().setVisible(true);
                 dispose();
             }

@@ -149,8 +149,8 @@ public class clienteAdmin extends JFrame {
                         while (resultSet.next()) {
                             infotexto.append("La información de tu consulta realizada es: "+"\n" );
                             infotexto.append("Cédula: " + resultSet.getString("cedula") + "\n");
-                            infotexto.append("Usuario: " + resultSet.getInt("usuario") + "\n");
-                            infotexto.append("Contraseña: " + resultSet.getInt("contrasena") + "\n");
+                            infotexto.append("Usuario: " + resultSet.getString("usuario") + "\n");
+                            infotexto.append("Contraseña: " + resultSet.getString("contrasena") + "\n");
                             infotexto.append("-----------------------\n");
                         }
                         resultSet.close();
