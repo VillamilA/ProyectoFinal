@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class canchaAdmin extends JFrame {
@@ -44,6 +45,12 @@ public class canchaAdmin extends JFrame {
 
             }
         });
+        buscarEliminar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cargarCancha();
+            }
+        });
     }
 
     private void crearCancha(String id, String cancha, String ubicacion) {
@@ -66,6 +73,39 @@ public class canchaAdmin extends JFrame {
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+    private void cargarCancha() {
+        String idelimina = ideliminar.getText();
+        if (idelimina.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El campo ID es obligatorio para cargar la cancha", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Connection connection = ConexionBase.getConnection();
+        if (connection != null) {
+            try {
+                // Limpiar el JComboBox
+                boxeliminar.removeAllItems();
+
+                // Consultar reservas para la cédula proporcionada
+                String query = "SELECT id, nombre, ubicacion FROM canchas WHERE id = ?";
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setString(1, idelimina);
+                ResultSet resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    int idcanc = resultSet.getInt("ID");
+                    String nombrecanc = resultSet.getString("nombre");
+                    String ubican = resultSet.getString("ubicacion");
+                    boxeliminar.addItem("ID: " + idcanc + " - Nombre: " + nombrecanc + " - Ubicado en " + ubican);
+                }
+
+                resultSet.close();
+                statement.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 }
