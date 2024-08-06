@@ -16,7 +16,7 @@ public class eliminarForm extends JFrame {
 
     public eliminarForm() {
         setTitle("Eliminar Reserva");
-        setSize(400, 300);
+        setSize(600, 300);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setContentPane(eliminarPanel);
         setLocationRelativeTo(null);
