@@ -13,8 +13,8 @@ public class canchaAdmin extends JFrame {
     private JTextField canchanombre;
     private JTextField ubicancha;
     private JButton agregarButton;
-    private JTextField textField4;
-    private JButton buscarButton;
+    private JTextField ideliminar;
+    private JButton buscarEliminar;
     private JComboBox boxeliminar;
     private JButton eliminarButton;
     private JButton irMenúButton;
@@ -34,6 +34,14 @@ public class canchaAdmin extends JFrame {
                 String ubicacion = ubicancha.getText();
 
                 crearCancha(id,cancha,ubicacion);
+            }
+        });
+        irMenúButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new menuadmin().setVisible(true);
+                dispose();
+
             }
         });
     }
