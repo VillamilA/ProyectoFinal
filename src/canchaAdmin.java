@@ -20,6 +20,10 @@ public class canchaAdmin extends JFrame {
     private JButton eliminarButton;
     private JButton irMenúButton;
     private JPanel canchaadmin;
+    private JTextField idactualiza;
+    private JTextField canchactual;
+    private JTextField ubicaactual;
+    private JButton actualizarButton;
 
     public canchaAdmin() {
         setTitle("Canchas");
@@ -49,6 +53,42 @@ public class canchaAdmin extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cargarCancha();
+            }
+        });
+        actualizarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String idactual = idactualiza.getText();
+                String nomactual = canchactual.getText();
+                String ubiactua = ubicaactual.getText();
+                if (idactual.trim().isEmpty() || nomactual.trim().isEmpty() || ubiactua.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Todos los campos son obligatorios", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+                Connection connection = ConexionBase.getConnection();
+                if (connection != null) {
+                    try {
+                        // Corregir la consulta para actualizar usuario y contraseña
+                        String query = "UPDATE canchas SET id = ?, nombre = ? WHERE ubicacion = ?";
+                        PreparedStatement preparedStatement = connection.prepareStatement(query);
+                        preparedStatement.setString(1, idactual);
+                        preparedStatement.setString(2, nomactual);
+                        preparedStatement.setString(3, ubiactua);
+                        int rowsAffected = preparedStatement.executeUpdate();
+
+                        if (rowsAffected > 0) {
+                            JOptionPane.showMessageDialog(null, "Cancha actualizada con éxito");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "No se encontró ninguna cancha con la ID proporcionada");
+                        }
+
+                        preparedStatement.close();
+                        connection.close();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
             }
         });
     }
