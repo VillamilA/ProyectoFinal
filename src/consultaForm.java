@@ -13,41 +13,47 @@ public class consultaForm extends JFrame {
     private JButton menúButton;
     private JPanel consulta;
 
-
-    public consultaForm(){
+    public consultaForm() {
         setTitle("Consulta de Reserva");
-        setSize(500,600);
+        setSize(500, 600);
         setContentPane(consulta);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-
 
         buscarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String cedula = campoCedula.getText();
-                if(cedula.trim().isEmpty()){
-                    JOptionPane.showMessageDialog(null ,"La cédula es obligatoria", "Adertencia", JOptionPane.WARNING_MESSAGE);
-                return;
+                if (cedula.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "La cédula es obligatoria", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    return;
                 }
+
                 Connection connection = ConexionBase.getConnection();
                 if (connection != null) {
                     try {
-                        String query = "select * from reserva where cedula = ?";
+                        String query = "SELECT * FROM reserva WHERE cedula = ?";
                         PreparedStatement preparedStatement = connection.prepareStatement(query);
                         preparedStatement.setString(1, cedula);
                         ResultSet resultSet = preparedStatement.executeQuery();
+
                         text.setText("");
-                        while (resultSet.next()) {
-                            text.append("La información de tu reserva realizada es: "+"\n" );
-                            text.append("ID: " + resultSet.getInt("id") + "\n");
-                            text.append("Cédula: " + resultSet.getString("cedula") + "\n");
-                            text.append("Fecha: " + resultSet.getDate("fecha") + "\n");
-                            text.append("Hora: " + resultSet.getTime("hora") + "\n");
-                            text.append("Cancha: " + resultSet.getString("cancha") + "\n");
-                            text.append("-----------------------\n");
-                            text.append(" Recuerda que está PROHIBIDO el consumo de bebidas alcohólicas.");
+
+                        if (!resultSet.isBeforeFirst()) { // Verificar si el ResultSet está vacío
+                            text.setText("USUARIO NO TIENE NINGUNA RESERVA");
+                        } else {
+                            text.append("La información de tu reserva realizada es:\n");
+                            while (resultSet.next()) {
+                                text.append("ID: " + resultSet.getInt("id") + "\n");
+                                text.append("Cédula: " + resultSet.getString("cedula") + "\n");
+                                text.append("Fecha: " + resultSet.getDate("fecha") + "\n");
+                                text.append("Hora: " + resultSet.getTime("hora") + "\n");
+                                text.append("Cancha: " + resultSet.getString("cancha") + "\n");
+                                text.append("-----------------------\n");
+                            }
+                            text.append("Recuerda que está PROHIBIDO el consumo de bebidas alcohólicas.");
                         }
+
                         resultSet.close();
                         preparedStatement.close();
                         connection.close();
@@ -55,9 +61,9 @@ public class consultaForm extends JFrame {
                         ex.printStackTrace();
                     }
                 }
-
             }
         });
+
         menúButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
