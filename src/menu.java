@@ -9,6 +9,7 @@ public class menu extends JFrame {
     private JButton actualizarReservaButton;
     private JPanel menuu;
     private JButton regresarButton;
+    private JButton verVideoButton;
 
     public menu(){
     setTitle("Menú");
@@ -52,6 +53,12 @@ public class menu extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 new login().setVisible(true);
                 dispose();
+            }
+        });
+        verVideoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new VideoPlayer().setVisible(true);
             }
         });
     }
