@@ -30,6 +30,10 @@ public class canchaAdmin extends JFrame {
     private JTextField canchactual;
     private JTextField ubicaactual;
     private JButton actualizarButton;
+    private JTabbedPane tabbedPane4;
+    private JTextField vercancha;
+    private JButton buscarcancha;
+    private JTextArea infocancha;
 
     /**
      * Constructor que inicializa el formulario de administración de canchas y configura los componentes de la interfaz.
@@ -138,6 +142,12 @@ public class canchaAdmin extends JFrame {
                         }
                     }
                 }
+            }
+        });
+        buscarcancha.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cargarCancha();
             }
         });
     }
