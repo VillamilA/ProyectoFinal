@@ -43,6 +43,7 @@ public class canchaAdmin extends JFrame {
         setSize(550, 425);
         setContentPane(canchaadmin);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
         agregarButton.addActionListener(new ActionListener() {
             @Override

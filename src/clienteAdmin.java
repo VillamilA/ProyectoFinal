@@ -45,6 +45,7 @@ public class clienteAdmin extends JFrame {
         setSize(550, 425);
         setContentPane(clientemenu);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
         crearClienteButton.addActionListener(new ActionListener() {
             @Override
