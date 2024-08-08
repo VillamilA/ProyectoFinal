@@ -6,6 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Clase que representa el formulario de administración de clientes.
+ * Permite al administrador crear, buscar, actualizar y eliminar clientes en la base de datos.
+ *  @author AVillamil
+ *  @version 1.0
+ */
 public class clienteAdmin extends JFrame {
 
     private JTextField campoCedula;
@@ -15,7 +21,7 @@ public class clienteAdmin extends JFrame {
     private JButton crearClienteButton;
     private JTabbedPane tabbedPane2;
     private JTextField campCedula;
-    private JComboBox boxcliente;
+    private JComboBox<String> boxcliente;
     private JButton buscarButton;
     private JButton eliminarButton;
     private JTabbedPane tabbedPane3;
@@ -31,29 +37,32 @@ public class clienteAdmin extends JFrame {
     private JTextArea infotexto;
     private JButton regresarMenúButton;
 
-    public clienteAdmin(){
-    setTitle("Clientes");
-    setSize(550,425);
-    setContentPane(clientemenu);
-    setDefaultCloseOperation(EXIT_ON_CLOSE);
+    /**
+     * Constructor que inicializa el formulario de administración de clientes y configura los componentes de la interfaz.
+     */
+    public clienteAdmin() {
+        setTitle("Clientes");
+        setSize(550, 425);
+        setContentPane(clientemenu);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-    crearClienteButton.addActionListener(new ActionListener() {
+        crearClienteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String cedula = campoCedula.getText();
+                String usuario = campoUsuario.getText();
+                String contrasena = campoContra.getText();
+                crearCliente(cedula, usuario, contrasena);
+            }
+        });
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String cedula = campoCedula.getText();
-            String usuario = campoUsuario.getText();
-            String contrasena = campoContra.getText();
-
-            crearCliente(cedula,usuario,contrasena);
-        }
-    });
         buscarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cargarReservas();
             }
         });
+
         eliminarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -93,6 +102,7 @@ public class clienteAdmin extends JFrame {
                 }
             }
         });
+
         actualizarClienteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -107,7 +117,6 @@ public class clienteAdmin extends JFrame {
                 Connection connection = ConexionBase.getConnection();
                 if (connection != null) {
                     try {
-                        // Corregir la consulta para actualizar usuario y contraseña
                         String query = "UPDATE USUARIO SET usuario = ?, contrasena = ? WHERE cedula = ?";
                         PreparedStatement preparedStatement = connection.prepareStatement(query);
                         preparedStatement.setString(1, usuario);
@@ -134,24 +143,29 @@ public class clienteAdmin extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String cedula = verCedula.getText();
-                if(cedula.trim().isEmpty()){
-                    JOptionPane.showMessageDialog(null ,"La cédula es obligatoria", "Adertencia", JOptionPane.WARNING_MESSAGE);
+                if (cedula.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "La cédula es obligatoria", "Advertencia", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
                 Connection connection = ConexionBase.getConnection();
                 if (connection != null) {
                     try {
-                        String query = "select * from USUARIO where cedula = ?";
+                        String query = "SELECT * FROM USUARIO WHERE cedula = ?";
                         PreparedStatement preparedStatement = connection.prepareStatement(query);
                         preparedStatement.setString(1, cedula);
                         ResultSet resultSet = preparedStatement.executeQuery();
                         infotexto.setText("");
-                        while (resultSet.next()) {
-                            infotexto.append("La información de tu consulta realizada es: "+"\n" );
-                            infotexto.append("Cédula: " + resultSet.getString("cedula") + "\n");
-                            infotexto.append("Usuario: " + resultSet.getString("usuario") + "\n");
-                            infotexto.append("Contraseña: " + resultSet.getString("contrasena") + "\n");
-                            infotexto.append("-----------------------\n");
+                        if (!resultSet.isBeforeFirst()) { // Verificar si el ResultSet está vacío
+                            infotexto.setText("USUARIO NO EXISTENTE");
+                        } else {
+                            infotexto.append("BIENVENIDO SR. ADMINISTRADOR :\n");
+                            while (resultSet.next()) {
+                                infotexto.append("La información de tu consulta realizada es:" + "\n");
+                                infotexto.append("Cédula: " + resultSet.getString("cedula") + "\n");
+                                infotexto.append("Usuario: " + resultSet.getString("usuario") + "\n");
+                                infotexto.append("Contraseña: " + resultSet.getString("contrasena") + "\n");
+                                infotexto.append("-----------------------\n");
+                            }
                         }
                         resultSet.close();
                         preparedStatement.close();
@@ -160,7 +174,6 @@ public class clienteAdmin extends JFrame {
                         ex.printStackTrace();
                     }
                 }
-
             }
         });
 
@@ -173,6 +186,13 @@ public class clienteAdmin extends JFrame {
         });
     }
 
+    /**
+     * Crea un nuevo cliente en la base de datos.
+     *
+     * @param cedula    La cédula del cliente.
+     * @param usuario   El nombre de usuario del cliente.
+     * @param contrasena La contraseña del cliente.
+     */
     private void crearCliente(String cedula, String usuario, String contrasena) {
         Connection connection = ConexionBase.getConnection();
         String query = "INSERT INTO USUARIO (cedula, usuario, contrasena) VALUES (?, ?, ?)";
@@ -186,7 +206,6 @@ public class clienteAdmin extends JFrame {
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
                 JOptionPane.showMessageDialog(null, "Usuario registrado con éxito");
-                return;
             }
 
             preparedStatement.close();
@@ -196,6 +215,9 @@ public class clienteAdmin extends JFrame {
         }
     }
 
+    /**
+     * Carga y muestra los clientes correspondientes a la cédula proporcionada en el JComboBox.
+     */
     private void cargarReservas() {
         String cedula = campCedula.getText();
         if (cedula.trim().isEmpty()) {
@@ -206,10 +228,8 @@ public class clienteAdmin extends JFrame {
         Connection connection = ConexionBase.getConnection();
         if (connection != null) {
             try {
-                // Limpiar el JComboBox
                 boxcliente.removeAllItems();
 
-                // Consultar reservas para la cédula proporcionada
                 String query = "SELECT cedula, usuario, contrasena FROM USUARIO WHERE cedula = ?";
                 PreparedStatement statement = connection.prepareStatement(query);
                 statement.setString(1, cedula);
@@ -217,9 +237,9 @@ public class clienteAdmin extends JFrame {
 
                 while (resultSet.next()) {
                     int ced = resultSet.getInt("cedula");
-                    String Usuario = resultSet.getString("usuario");
-                    String Contra = resultSet.getString("contrasena");
-                    boxcliente.addItem(ced + " - Usuario: " + Usuario + " - Contraseña " + Contra);
+                    String usuario = resultSet.getString("usuario");
+                    String contrasena = resultSet.getString("contrasena");
+                    boxcliente.addItem(ced + " - Usuario: " + usuario + " - Contraseña: " + contrasena);
                 }
 
                 resultSet.close();
@@ -229,6 +249,4 @@ public class clienteAdmin extends JFrame {
             }
         }
     }
-
-
 }
