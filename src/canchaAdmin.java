@@ -147,7 +147,38 @@ public class canchaAdmin extends JFrame {
         buscarcancha.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cargarCancha();
+                String cedula = vercancha.getText();
+                if (cedula.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "La cédula es obligatoria", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                Connection connection = ConexionBase.getConnection();
+                if (connection != null) {
+                    try {
+                        String query = "SELECT * FROM canchas WHERE id = ?";
+                        PreparedStatement preparedStatement = connection.prepareStatement(query);
+                        preparedStatement.setString(1, cedula);
+                        ResultSet resultSet = preparedStatement.executeQuery();
+                        infocancha.setText("");
+                        if (!resultSet.isBeforeFirst()) { // Verificar si el ResultSet está vacío
+                            infocancha.setText("USUARIO NO EXISTENTE");
+                        } else {
+                            infocancha.append("La cancha con la ID ingresada es:\n");
+                            while (resultSet.next()) {
+                                infocancha.append("La información de tu consulta realizada es:" + "\n");
+                                infocancha.append("ID: " + resultSet.getString("id") + "\n");
+                                infocancha.append("Nombre: " + resultSet.getString("nombre") + "\n");
+                                infocancha.append("Ubicación: " + resultSet.getString("ubicacion") + "\n");
+                                infocancha.append("----------------------------------\n");
+                            }
+                        }
+                        resultSet.close();
+                        preparedStatement.close();
+                        connection.close();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
             }
         });
     }
