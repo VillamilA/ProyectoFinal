@@ -5,6 +5,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * Clase que representa el formulario para actualizar una reserva.
+ * Permite al usuario actualizar la fecha, hora y cancha de una reserva existente
+ * basada en la cédula proporcionada. También ofrece la opción de regresar al menú principal.
+ *  @author AVillamil
+ *  @version 1.0
+ */
 public class actualizarForm extends JFrame {
     private JTextField campoCedula;
     private JTextField campoFecha;
@@ -14,6 +21,9 @@ public class actualizarForm extends JFrame {
     private JPanel actualizarPanel;
     private JButton menúButton;
 
+    /**
+     * Constructor que inicializa el formulario para actualizar reservas y configura los componentes de la interfaz.
+     */
     public actualizarForm() {
         setTitle("Actualizar Reserva");
         setSize(500, 600);
@@ -37,7 +47,7 @@ public class actualizarForm extends JFrame {
                 Connection connection = ConexionBase.getConnection();
                 if (connection != null) {
                     try {
-                        String query = "update reserva set fecha = ?, hora = ?, cancha = ? where cedula = ?";
+                        String query = "UPDATE reserva SET fecha = ?, hora = ?, cancha = ? WHERE cedula = ?";
                         PreparedStatement preparedStatement = connection.prepareStatement(query);
                         preparedStatement.setString(1, fecha);
                         preparedStatement.setString(2, hora);
@@ -57,6 +67,7 @@ public class actualizarForm extends JFrame {
                 }
             }
         });
+
         menúButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

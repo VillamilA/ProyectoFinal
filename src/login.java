@@ -6,6 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Clase que representa la interfaz de inicio de sesión del sistema.
+ */
 public class login extends JFrame {
     private JTextField campoUsu;
     private JPasswordField campoContra;
@@ -14,6 +17,9 @@ public class login extends JFrame {
     private JPanel logeo;
     private JButton pulsaAquíButton;
 
+    /**
+     * Constructor que inicializa la interfaz gráfica de inicio de sesión.
+     */
     public login() {
         setTitle("Iniciar Sesión");
         setSize(600, 550);
@@ -49,6 +55,7 @@ public class login extends JFrame {
                 dispose();
             }
         });
+
         pulsaAquíButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -58,6 +65,13 @@ public class login extends JFrame {
         });
     }
 
+    /**
+     * Autentica un usuario verificando su nombre de usuario y contraseña en la base de datos.
+     *
+     * @param usuario    El nombre de usuario.
+     * @param contrasena La contraseña del usuario.
+     * @return true si las credenciales son correctas, false de lo contrario.
+     */
     private boolean autenticarUsuario(String usuario, String contrasena) {
         boolean autenticado = false;
         Connection connection = ConexionBase.getConnection();
@@ -91,7 +105,11 @@ public class login extends JFrame {
         return autenticado;
     }
 
-
+    /**
+     * Método principal que lanza la aplicación de inicio de sesión.
+     *
+     * @param args Los argumentos de la línea de comandos.
+     */
     public static void main(String[] args) {
         new login().setVisible(true);
     }

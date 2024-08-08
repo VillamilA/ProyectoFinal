@@ -6,6 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Clase que representa el formulario para consultar reservas de canchas.
+ */
 public class consultaForm extends JFrame {
     private JTextField campoCedula;
     private JButton buscarButton;
@@ -13,9 +16,12 @@ public class consultaForm extends JFrame {
     private JButton menúButton;
     private JPanel consulta;
 
+    /**
+     * Constructor de la clase consultaForm. Inicializa los componentes de la interfaz.
+     */
     public consultaForm() {
         setTitle("Consulta de Reserva");
-        setSize(500, 600);
+        setSize(600, 600);
         setContentPane(consulta);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);

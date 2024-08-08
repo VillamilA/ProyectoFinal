@@ -6,6 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Clase que representa el formulario de inicio de sesión para el administrador.
+ * Permite a los administradores autenticarse en la aplicación mediante su cédula
+ * y contraseña. Proporciona opciones para iniciar sesión o regresar a la pantalla de inicio.
+ */
 public class loginadmin extends JFrame {
     private JPasswordField passAdmin;
     private JTextField cedulaAdmin;
@@ -13,7 +18,9 @@ public class loginadmin extends JFrame {
     private JButton regresarButton;
     private JPanel adminLogin;
 
-
+    /**
+     * Constructor que inicializa el formulario de inicio de sesión del administrador y configura los componentes de la interfaz.
+     */
     public loginadmin() {
         setTitle("Iniciar Sesión");
         setSize(600, 550);
@@ -49,6 +56,16 @@ public class loginadmin extends JFrame {
             }
         });
     }
+
+    /**
+     * Autentica al administrador en la base de datos.
+     *
+     * @param usuario    El nombre de usuario del administrador.
+     * @param contrasena La contraseña del administrador.
+     * @return true si las credenciales son válidas, false en caso contrario.
+     * @author AVillamil
+     * @version 1.0
+     */
     private boolean autenticarAdmin(String usuario, String contrasena) {
         boolean autenticado = false;
         Connection connection = ConexionBase.getConnection();

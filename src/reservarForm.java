@@ -6,6 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Clase que representa el formulario de reserva de canchas en la aplicación.
+ * Permite a los usuarios ingresar sus datos para realizar una reserva.
+ * @author AVillamil
+ * @version 1.0
+ */
 public class reservarForm extends JFrame {
     private JTextField campoCedula;
     private JTextField campoFecha;
@@ -15,6 +21,9 @@ public class reservarForm extends JFrame {
     private JPanel reservarPanel;
     private JButton menubutton;
 
+    /**
+     * Constructor que inicializa el formulario de reserva y configura los componentes de la interfaz.
+     */
     public reservarForm() {
         setTitle("Reservar Cancha");
         setSize(500, 600);
@@ -36,6 +45,7 @@ public class reservarForm extends JFrame {
                 String hora = campoHora.getText();
                 String cancha = campoCancha.getText();
 
+                // Verificar que todos los campos estén llenos
                 if (cedula.trim().isEmpty() || fecha.trim().isEmpty() || hora.trim().isEmpty() || cancha.trim().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Todos los campos son obligatorios", "Advertencia", JOptionPane.WARNING_MESSAGE);
                     return;
@@ -90,9 +100,11 @@ public class reservarForm extends JFrame {
                 }
             }
         });
+
         menubutton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // Volver al menú principal
                 new menu().setVisible(true);
                 dispose();
             }

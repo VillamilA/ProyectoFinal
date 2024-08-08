@@ -6,6 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Clase que representa la interfaz para eliminar reservas en el sistema.
+ */
 public class eliminarForm extends JFrame {
     private JTextField campoCedula;
     private JComboBox<String> comboReservas;
@@ -14,6 +17,9 @@ public class eliminarForm extends JFrame {
     private JPanel eliminarPanel;
     private JButton menubutton;
 
+    /**
+     * Constructor que inicializa la interfaz gráfica para eliminar reservas.
+     */
     public eliminarForm() {
         setTitle("Eliminar Reserva");
         setSize(600, 300);
@@ -77,6 +83,10 @@ public class eliminarForm extends JFrame {
         });
     }
 
+    /**
+     * Carga las reservas asociadas a la cédula proporcionada en el campo de texto.
+     * Las reservas se muestran en un JComboBox para que el usuario pueda seleccionar y eliminar una.
+     */
     private void cargarReservas() {
         String cedula = campoCedula.getText();
         if (cedula.trim().isEmpty()) {

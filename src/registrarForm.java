@@ -5,6 +5,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * Clase que representa el formulario para registrar un nuevo usuario.
+ */
 public class registrarForm extends JFrame {
     private JPanel registro;
     private JTextField campoCedula;
@@ -13,32 +16,43 @@ public class registrarForm extends JFrame {
     private JPasswordField campoNuevoContrasena;
     private JTextField campoUsuario;
 
-    public registrarForm(){
-    setTitle("Iniciar Sesión");
-    setSize(500,600);
-    setDefaultCloseOperation(EXIT_ON_CLOSE);
-    setContentPane(registro);
-    setLocationRelativeTo(null);
-    registrarButton.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String Cedula = campoCedula.getText();
-            String Usuario = campoUsuario.getText();
-            String nuevaContrasena = new String(campoNuevoContrasena.getPassword());
+    /**
+     * Constructor de la clase registrarForm. Inicializa los componentes de la interfaz.
+     */
+    public registrarForm() {
+        setTitle("Iniciar Sesión");
+        setSize(500, 600);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setContentPane(registro);
+        setLocationRelativeTo(null);
 
-            registrarUsuario(Cedula,Usuario, nuevaContrasena);
-        }
-    });
+        registrarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String Cedula = campoCedula.getText();
+                String Usuario = campoUsuario.getText();
+                String nuevaContrasena = new String(campoNuevoContrasena.getPassword());
 
-    regresarLoginButton.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-        new login().setVisible(true);
-        dispose();
-        }
-    });
-}
+                registrarUsuario(Cedula, Usuario, nuevaContrasena);
+            }
+        });
 
+        regresarLoginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new login().setVisible(true);
+                dispose();
+            }
+        });
+    }
+
+    /**
+     * Registra un nuevo usuario en la base de datos.
+     *
+     * @param cedula     La cédula del usuario.
+     * @param usuario    El nombre de usuario.
+     * @param contrasena La contraseña del usuario.
+     */
     private void registrarUsuario(String cedula, String usuario, String contrasena) {
         Connection connection = ConexionBase.getConnection();
         String query = "INSERT INTO USUARIO (cedula, usuario, contrasena) VALUES (?, ?, ?)";
@@ -51,7 +65,7 @@ public class registrarForm extends JFrame {
 
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
-                JOptionPane.showMessageDialog(null, "Bienvenido señor "+usuario);
+                JOptionPane.showMessageDialog(null, "Bienvenido señor " + usuario);
                 new login().setVisible(true);
                 dispose();
             }
@@ -62,6 +76,4 @@ public class registrarForm extends JFrame {
             e.printStackTrace();
         }
     }
-
-
 }
