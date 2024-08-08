@@ -118,12 +118,22 @@ public class canchaAdmin extends JFrame {
                 int respuesta = JOptionPane.showConfirmDialog(null, "¿Está seguro de que desea eliminar la opción seleccionada?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
                 if (respuesta == JOptionPane.YES_OPTION) {
                     String[] partes = clienteBuscado.split(" - ");
-                    int IDcancha = Integer.parseInt(partes[0]);
+
+                    // Extraer el número de la cadena
+                    String idString = partes[0].replaceAll("[^0-9]", ""); // Eliminar todo excepto números
+                    int IDcancha;
+
+                    try {
+                        IDcancha = Integer.parseInt(idString);
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null, "El ID de la cancha no es válido", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
 
                     Connection connection = ConexionBase.getConnection();
                     if (connection != null) {
                         try {
-                            String deleteQuery = "DELETE FROM canchas WHERE ID = ?";
+                            String deleteQuery = "DELETE FROM canchas WHERE id = ?";
                             PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery);
                             deleteStatement.setInt(1, IDcancha);
                             int rowsAffected = deleteStatement.executeUpdate();
@@ -144,6 +154,7 @@ public class canchaAdmin extends JFrame {
                 }
             }
         });
+
         buscarcancha.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
